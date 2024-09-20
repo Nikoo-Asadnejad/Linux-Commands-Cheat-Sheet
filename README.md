@@ -29,28 +29,83 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ---
 
+### System Information
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `uname -a`                                   | Display detailed system information (kernel, hostname, etc.)                |
+| `uname -r`                                   | Show the kernel version                                                     |
+| `hostname`                                   | Show or set the system hostname                                             |
+| `hostnamectl`                                | Display or set the system's hostname and related settings                   |
+| `uptime`                                     | Show how long the system has been running and system load                   |
+| `whoami`                                     | Display the current user                                                    |
+| `id`                                         | Show the current user’s ID and group information                            |
+| `who`                                        | Show who is currently logged into the system                                |
+| `w`                                          | Display who is logged in and what they are doing                            |
+| `date`                                       | Show or set the system date and time                                        |
+| `cal`                                        | Display a calendar for the current month                                    |
+| `df -h`                                      | Show disk space usage in human-readable format                              |
+| `du -h <directory>`                          | Display the disk usage of files and directories in human-readable format    |
+| `du -sh <directory>`                         | Display the total size of a directory                                       |
+| `top`                                        | Display real-time system resource usage and processes                       |
+| `free -h`                                    | Show memory usage in human-readable format                                  |
+| `lscpu`                                      | Display CPU architecture information                                        |
+| `lsblk`                                      | List information about block devices (disks, partitions)                    |
+| `dmesg`                                      | Display messages from the kernel ring buffer                                |
+| `lsusb`                                      | List information about USB devices                                          |
+| `lspci`                                      | List information about PCI devices                                          |
+| `uptime`                                     | Display the system’s uptime and load averages                               |
+| `last`                                       | Show the last logins of users                                               |
+| `uname -m`                                   | Show the machine hardware name (e.g., x86_64)                               |
+
+---
+
 ## File and Directory Management
 
-| Command                                  | Description                             |
-|------------------------------------------|-----------------------------------------|
-| `touch <file>`                           | Create a new empty file                 |
-| `mkdir <directory>`                      | Create a new directory                  |
-| `cp <source> <destination>`              | Copy files or directories               |
-| `mv <source> <destination>`              | Move or rename files/directories        |
-| `rm <file>`                              | Delete a file                           |
-| `rm -r <directory>`                      | Delete a directory and its contents     |
-| `find <directory> -name <filename>`      | Search for files by name                |
-| `grep '<pattern>' <file>`                | Search text in files                    |
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ls`                                         | List files and directories in the current directory                         |
+| `ls -l`                                      | List files and directories with detailed information                        |
+| `ls -a`                                      | List all files, including hidden files                                      |
+| `cd <directory>`                             | Change to a specific directory                                              |
+| `cd ..`                                      | Move up one directory level                                                 |
+| `pwd`                                        | Display the current working directory                                       |
+| `mkdir <directory>`                          | Create a new directory                                                      |
+| `rmdir <directory>`                          | Remove an empty directory                                                   |
+| `rm <file>`                                  | Delete a file                                                               |
+| `rm -r <directory>`                          | Remove a directory and its contents recursively                             |
+| `rm -rf <directory>`                         | Forcefully remove a directory and its contents                              |
+| `cp <source> <destination>`                  | Copy files or directories                                                   |
+| `cp -r <source-directory> <destination>`     | Copy directories recursively                                                |
+| `mv <source> <destination>`                  | Move or rename files and directories                                        |
+| `touch <file>`                               | Create an empty file or update the timestamp of an existing file            |
+| `ln -s <target> <link>`                      | Create a symbolic link (soft link)                                          |
+| `ln <target> <link>`                         | Create a hard link                                                          |
+| `cat <file>`                                 | Display the contents of a file                                              |
+| `less <file>`                                | View the contents of a file page by page                                    |
+| `more <file>`                                | View the contents of a file page by page (older than `less`)                |
+| `head <file>`                                | Display the first 10 lines of a file                                        |
+| `tail <file>`                                | Display the last 10 lines of a file                                         |
+| `tail -f <file>`                             | Display the contents of a file in real-time (follow the file as it grows)   |
+| `find <directory> -name <filename>`          | Search for a file or directory by name                                      |
+| `find <directory> -type d -name <dirname>`   | Find directories matching a specific name                                   |
+| `find <directory> -type f -name <filename>`  | Find files matching a specific name                                         |
+| `grep "<pattern>" <file>`                    | Search for a specific pattern in a file                                     |
+| `grep -r "<pattern>" <directory>`            | Search for a pattern recursively in a directory                             |
 
 ---
 
 ## File Permissions
 
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `chmod <permissions> <file>`  | Change file permissions                     |
-| `chown <owner>:<group> <file>`| Change file owner and group                 |
-| `ls -l`                       | List files with permissions                 |
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ls -l`                                      | List files and show their permissions, owner, and group                     |
+| `chmod <permissions> <file>`                 | Change the permissions of a file or directory                               |
+| `chmod 644 <file>`                           | Set read/write for owner and read-only for group and others                 |
+| `chmod 755 <directory>`                      | Set read/write/execute for owner, read/execute for group and others         |
+| `chown <owner>:<group> <file>`               | Change the owner and group of a file or directory                           |
+| `chown <owner> <file>`                       | Change the owner of a file                                                  |
+| `chgrp <group> <file>`                       | Change the group of a file                                                  |
 
 ---
 
