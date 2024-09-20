@@ -56,15 +56,119 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ## Networking
 
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `ifconfig`                   | Show network interfaces and IP addresses    |
-| `ping <host>`                | Send ICMP requests to a host                |
-| `netstat -tuln`              | Show active network connections             |
-| `traceroute <host>`          | Trace the route packets take to a host      |
-| `wget <URL>`                 | Download a file from the web                |
+### Network Interface Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ip addr`                                    | Show all network interfaces and their IP addresses                          |
+| `ip addr show <interface>`                   | Display information about a specific network interface                      |
+| `ip link set <interface> up`                 | Bring a network interface up                                                |
+| `ip link set <interface> down`               | Bring a network interface down                                              |
+| `ifconfig`                                   | Display or configure network interface (older command, use `ip` for new systems) |
+| `ifconfig <interface>`                       | Show details about a specific network interface                             |
+| `ifdown <interface>`                         | Take a network interface down (Debian-based systems)                        |
+| `ifup <interface>`                           | Bring a network interface up (Debian-based systems)                         |
+| `ethtool <interface>`                        | Display or change Ethernet device settings                                  |
+| `ip route`                                   | Display or manipulate the routing table                                     |
+| `ip route add <destination> via <gateway>`   | Add a new route to the routing table                                        |
+| `ip route del <destination>`                 | Remove a route from the routing table                                       |
+| `hostname`                                   | Show or set the system’s hostname                                           |
+| `hostname -I`                                | Display all IP addresses of the host                                        |
+| `nmcli dev show <interface>`                 | Display the connection status of a specific network interface (NetworkManager) |
+| `nmcli device status`                        | Show status of all network interfaces (NetworkManager)                      |
+| `nmcli connection show`                      | Display saved network connections (NetworkManager)                          |
+| `nmcli connection up <connection-name>`      | Bring up a specific network connection (NetworkManager)                     |
+| `nmcli connection down <connection-name>`    | Bring down a specific network connection (NetworkManager)                   |
+| `nmtui`                                      | Text-based user interface for managing network connections                  |
 
 ---
+
+### DNS Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `dig <domain>`                               | Query DNS information for a domain                                          |
+| `dig +short <domain>`                        | Get the short output (e.g., only the IP address)                            |
+| `dig @<nameserver> <domain>`                 | Query a specific DNS server for domain resolution                           |
+| `nslookup <domain>`                          | Query DNS information for a domain                                          |
+| `host <domain>`                              | Perform DNS lookup and reverse lookup                                       |
+| `systemd-resolve --status`                   | Show DNS resolution status (systemd-resolved)                               |
+| `resolvectl query <domain>`                  | Query DNS using systemd-resolved                                            |
+| `cat /etc/resolv.conf`                       | Display DNS server configuration                                            |
+
+---
+
+### Network Troubleshooting
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ping <host>`                                | Check connectivity to a host                                                |
+| `ping -c <count> <host>`                     | Send a specific number of ICMP echo requests to a host                      |
+| `ping6 <host>`                               | Send an ICMP echo request to a host using IPv6                              |
+| `traceroute <host>`                          | Trace the path packets take to reach a host                                 |
+| `tracepath <host>`                           | Similar to traceroute, but does not require superuser privileges            |
+| `mtr <host>`                                 | Combines `ping` and `traceroute` to provide continuous network analysis     |
+| `netstat -tuln`                              | Show listening ports and services                                           |
+| `ss -tuln`                                   | Show listening sockets (more modern than `netstat`)                         |
+| `nc -zv <host> <port>`                       | Check if a specific port is open on a host (TCP/UDP connection test)        |
+| `nc -l <port>`                               | Open a port and listen for incoming connections                             |
+| `telnet <host> <port>`                       | Check TCP connectivity to a host and port                                   |
+| `curl <url>`                                 | Perform a basic HTTP request and display the response                       |
+| `curl -I <url>`                              | Display HTTP headers for a URL                                              |
+| `curl -O <url>`                              | Download a file from a URL                                                  |
+| `wget <url>`                                 | Download files from the web using HTTP, HTTPS, or FTP                       |
+| `arp -a`                                     | Display the system's ARP table (shows MAC to IP mappings)                   |
+| `tcpdump`                                    | Capture and analyze network traffic                                         |
+| `tcpdump -i <interface>`                     | Capture packets on a specific network interface                             |
+| `tcpdump -nn -X port <port>`                 | Capture packets on a port and display the packet contents in hexadecimal    |
+
+---
+
+### Firewall Management (iptables and firewalld)
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `iptables -L`                                | List all firewall rules                                                     |
+| `iptables -A <chain> -p <protocol> --dport <port> -j <target>` | Add a rule to a chain (e.g., ACCEPT, DROP)                                 |
+| `iptables -D <chain> <rule-number>`          | Delete a specific rule from a chain                                         |
+| `iptables -F`                                | Flush (delete) all firewall rules                                           |
+| `firewall-cmd --list-all`                    | List all active firewalld rules (CentOS, Fedora)                            |
+| `firewall-cmd --add-service=<service>`       | Temporarily allow a service through the firewall                            |
+| `firewall-cmd --permanent --add-service=<service>` | Permanently allow a service through the firewall                         |
+| `firewall-cmd --remove-service=<service>`    | Remove a service from the firewall                                          |
+| `ufw status`                                 | Display the status of UFW (Uncomplicated Firewall) (Ubuntu)                 |
+| `ufw enable`                                 | Enable UFW                                                                  |
+| `ufw disable`                                | Disable UFW                                                                 |
+| `ufw allow <port>/<protocol>`                | Allow traffic on a port (e.g., `ufw allow 22/tcp`)                          |
+| `ufw deny <port>/<protocol>`                 | Deny traffic on a port                                                      |
+
+---
+
+### Network File Transfer
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `scp <source> <user>@<host>:<destination>`   | Securely copy files to a remote host                                        |
+| `scp <user>@<host>:<source> <destination>`   | Securely copy files from a remote host                                      |
+| `rsync -avz <source> <user>@<host>:<destination>` | Synchronize files between local and remote hosts                         |
+| `rsync -avz <user>@<host>:<source> <destination>` | Synchronize files from remote to local                                    |
+| `sftp <user>@<host>`                         | Start a secure file transfer session                                       |
+| `ftp <host>`                                 | Start an FTP session (unencrypted)                                         |
+
+---
+
+### SSH and Remote Connections
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ssh <user>@<host>`                          | Connect to a remote host via SSH                                            |
+| `ssh -i <keyfile> <user>@<host>`             | Connect to a remote host using a specific private key                       |
+| `ssh -L <local-port>:<remote-host>:<remote-port> <user>@<host>` | Create an SSH tunnel with port forwarding                                |
+| `ssh-copy-id <user>@<host>`                  | Copy local SSH key to a remote host to enable passwordless login            |
+| `scp <user>@<host>:<source> <destination>`   | Securely copy files between local and remote hosts                          |
+| `sftp <user>@<host>`                         | Securely transfer files to/from a remote host using SFTP                    |
+| `tmux`                                       | Start a terminal multiplexer session (maintain SSH sessions)                |
+| `screen`                                     | Start a screen session (maintain SSH sessions)                              |
 
 ## System Monitoring
 
