@@ -6,13 +6,17 @@ A collection of common Linux commands for system navigation, file management, ne
 1. [Basic Commands](#basic-commands)
 2. [File and Directory Management](#file-and-directory-management)
 3. [File Permissions](#file-permissions)
-4. [Networking](#networking)
-5. [Process Management](#process-management)
-6. [System Monitoring](#system-monitoring)
-7. [Disk Usage](#disk-usage)
-8. [Package Management](#package-management)
-9. [User Management](#user-management)
-10. [SSH and Remote Access](#ssh-and-remote-access)
+4. [User Management](#user-management)
+5. [Package Management](#package-management)
+6. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
+7. [Process Management](#process-management)
+8. [System Monitoring](#system-monitoring)
+9. [Systemd Management](systemd-management)
+10. [Networking](#networking)
+11. [SSH Management](#ssh-management)
+12. [Mail Management](mail-management)
+13. [Kernel and Modules Management](#kernel-and-modules-management)
+14. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
 
 ---
 
@@ -106,6 +110,280 @@ A collection of common Linux commands for system navigation, file management, ne
 | `chown <owner>:<group> <file>`               | Change the owner and group of a file or directory                           |
 | `chown <owner> <file>`                       | Change the owner of a file                                                  |
 | `chgrp <group> <file>`                       | Change the group of a file                                                  |
+
+---
+
+## User Management
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `adduser <username>`                         | Create a new user with home directory and default shell            |
+| `useradd <username>`                         | Create a new user (minimal setup, no home directory by default)    |
+| `userdel <username>`                         | Delete a user account                                              |
+| `userdel -r <username>`                      | Delete a user account and their home directory                     |
+| `passwd <username>`                          | Change the password for a user                                     |
+| `chage -l <username>`                        | Display password aging information for a user                      |
+| `usermod -aG <groupname> <username>`         | Add a user to a group                                              |
+| `groups <username>`                          | List groups a user is part of                                      |
+| `id <username>`                              | Show user ID (UID), group ID (GID), and other group memberships    |
+| `deluser <username>`                         | Remove a user from the system                                      |
+| `deluser <username> <groupname>`             | Remove a user from a specific group                                |
+| `sudo <command>`                             | Execute a command as the superuser                                 |
+| `su <username>`                              | Switch to another user account (requires that user's password)     |
+| `who`                                        | Show who is logged in                                              |
+| `whoami`                                     | Display the current logged-in user                                 |
+| `last`                                       | Show last logins of users                                          |
+| `w`                                          | Display who is logged in and what they are doing                   |
+| `finger <username>`                          | Display detailed information about a user                          |
+| `getent passwd`                              | Display all users in the system                                    |
+| `vipw`                                       | Safely edit the `/etc/passwd` file (user accounts)                 |
+| `visudo`                                     | Safely edit the `/etc/sudoers` file                                |
+| `chown <owner>:<group> <file>`               | Change ownership of a file                                         |
+| `chmod <permissions> <file>`                 | Change file permissions                                            |
+
+---
+
+### Group Management
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `groupadd <groupname>`                       | Create a new group                                                 |
+| `groupdel <groupname>`                       | Delete a group                                                     |
+| `gpasswd -a <username> <groupname>`          | Add a user to a group (alternative to `usermod -aG`)               |
+| `gpasswd -d <username> <groupname>`          | Remove a user from a group                                         |
+| `newgrp <groupname>`                         | Switch to a new group for the current session                      |
+| `groups <username>`                          | Display the groups a user belongs to                               |
+| `getent group <groupname>`                   | Show group entry in `/etc/group`                                   |
+
+---
+
+### Account and Session Management
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `chage -E <date> <username>`                 | Set an account expiration date for a user                          |
+| `chage -M <days> <username>`                 | Set maximum number of days a password remains valid                |
+| `chage -m <days> <username>`                 | Set minimum number of days before a password can be changed        |
+| `chage -I <days> <username>`                 | Set the number of days after a password expires before an account is disabled |
+| `faillog -u <username>`                      | Show login failure statistics for a user                           |
+| `faillog -r <username>`                      | Reset failed login count for a user                                |
+| `lastlog`                                    | Show the last login of all users                                   |
+| `pkill -u <username>`                        | Terminate all processes owned by a user                            |
+| `passwd -l <username>`                       | Lock a user account (disallow login)                               |
+| `passwd -u <username>`                       | Unlock a user account                                              |
+| `nologin`                                    | Prevent a user from logging in by setting their shell to `/sbin/nologin` |
+
+---
+
+## Package Management
+
+### Debian/Ubuntu
+
+| Command                      | Description                                 |
+|------------------------------|---------------------------------------------|
+| `apt-get update`              | Update package list                         |
+| `apt-get upgrade`             | Upgrade all installed packages              |
+| `apt-get install <package>`   | Install a package                           |
+| `apt-get remove <package>`    | Remove a package                            |
+
+### Red Hat/CentOS
+
+| Command                      | Description                                 |
+|------------------------------|---------------------------------------------|
+| `yum update`                  | Update package list                         |
+| `yum install <package>`       | Install a package                           |
+| `yum remove <package>`        | Remove a package                            |
+
+---
+
+## Cron Jobs and Scheduling
+
+### Managing Cron Jobs
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `crontab -e`                                | Edit the current user's crontab file                                      |
+| `crontab -l`                                | List the current user's cron jobs                                          |
+| `crontab -r`                                | Remove the current user's crontab file                                     |
+| `sudo crontab -e -u <username>`            | Edit the crontab for a specified user                                      |
+| `sudo crontab -l -u <username>`            | List the crontab for a specified user                                      |
+| `sudo crontab -r -u <username>`            | Remove the crontab for a specified user                                    |
+
+---
+
+### Cron Job Syntax
+Cron jobs are defined using the following syntax:
+<p>* * * * * command_to_run</p>
+
+#### Example Cron Job Entries
+
+| Entry                                        | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `0 5 * * * /path/to/script.sh`             | Run a script every day at 5:00 AM                                         |
+| `*/15 * * * * /path/to/backup.sh`          | Run a backup script every 15 minutes                                       |
+| `0 0 1 * * /path/to/report.sh`             | Run a report script at midnight on the first day of every month           |
+| `30 2 * * 1 /path/to/cleanup.sh`           | Run a cleanup script every Monday at 2:30 AM                              |
+
+---
+
+### System-Wide Cron Jobs
+
+System-wide cron jobs are configured in `/etc/crontab` and can also be found in the `/etc/cron.d/` directory.
+
+### Scheduling with `at`
+
+The `at` command is used to schedule one-time tasks.
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `at 10:00`                                  | Schedule a command to run at 10:00 AM (prompt for the command)            |
+| `echo "command_to_run" | at 10:00`         | Schedule a command to run at 10:00 AM                                     |
+| `atq`                                       | List scheduled jobs for the current user                                   |
+| `atrm <job_number>`                         | Remove a scheduled job by its job number                                   |
+
+---
+
+## Process Management:
+
+### Viewing Processes
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ps aux`                                     | List all running processes in detail                                        |
+| `ps -ef`                                     | List processes with full-format output                                      |
+| `top`                                        | Show real-time system resource usage (CPU, memory, processes)               |
+| `htop`                                       | Enhanced interactive process viewer (`htop` needs to be installed separately)|
+| `pgrep <name>`                               | Find the PID(s) of a process by name                                        |
+| `pidof <process>`                            | Find the PID of a running process                                           |
+| `pstree`                                     | Display processes in a tree-like format                                     |
+
+### Managing Processes
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `kill <PID>`                                 | Terminate a process by PID                                                  |
+| `kill -9 <PID>`                              | Forcefully kill a process                                                   |
+| `killall <name>`                             | Kill all processes by name                                                  |
+| `pkill <name>`                               | Kill processes by name (supports regular expressions)                       |
+| `bg`                                         | Resume a suspended job in the background                                    |
+| `fg`                                         | Bring a background job to the foreground                                    |
+| `jobs`                                       | List all background jobs in the current shell                               |
+| `nice -n <priority> <command>`               | Start a process with a specified priority (lower value = higher priority)   |
+| `renice <priority> <PID>`                    | Change the priority of a running process                                    |
+
+### Monitoring Processes
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `top`                                        | Display real-time information about running processes and resource usage    |
+| `htop`                                       | Interactive version of `top` (install separately with `sudo apt-get install htop`) |
+| `uptime`                                     | Show how long the system has been running                                   |
+| `free -m`                                    | Display system memory usage in megabytes                                    |
+| `vmstat`                                     | Report virtual memory statistics                                            |
+| `lsof`                                       | List open files by processes                                                |
+| `strace -p <PID>`                            | Trace system calls made by a process                                        |
+| `watch <command>`                            | Execute a command repeatedly and monitor its output in real-time            |
+
+### Signals
+
+Linux processes can be sent various signals to control their behavior.
+
+| Signal    | Number  | Description                           |
+|-----------|---------|---------------------------------------|
+| `SIGHUP`  | 1       | Hangup, reload configuration          |
+| `SIGINT`  | 2       | Interrupt from keyboard (Ctrl + C)    |
+| `SIGKILL` | 9       | Kill signal, cannot be ignored        |
+| `SIGTERM` | 15      | Termination signal                    |
+| `SIGSTOP` | 19      | Stop process (cannot be ignored)      |
+| `SIGCONT` | 18      | Continue a stopped process            |
+
+---
+
+### Background & Foreground Process Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `command &`                                  | Run a command in the background                                             |
+| `bg`                                         | Resume a suspended job in the background                                    |
+| `fg`                                         | Bring a background job to the foreground                                    |
+| `jobs`                                       | List current jobs and their statuses                                        |
+| `nohup <command> &`                          | Run a command immune to hangups, in the background                          |
+| `disown <job>`                               | Remove a job from the job table, leaving it running                         |
+
+---
+
+### Process Ownership and Security
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ps -u <username>`                           | List all processes belonging to a user                                      |
+| `sudo -u <username> <command>`               | Run a command as a different user                                           |
+| `chown <owner>:<group> <file>`               | Change ownership of files or directories                                    |
+| `chmod <permissions> <file>`                 | Modify permissions for a file or directory                                  |
+| `setfacl -m u:<user>:rwx <file>`             | Set file access control lists (ACLs) for a user on a file                   |
+| `getfacl <file>`                             | View ACL permissions of a file                                              |
+
+---
+
+### Monitoring CPU and Memory Usage by Process
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `top`                                        | Display processes sorted by CPU usage                                       |
+| `htop`                                       | Interactive real-time process viewer                                        |
+| `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu` | List processes sorted by CPU usage                                          |
+| `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem` | List processes sorted by memory usage                                       |
+
+---
+
+## Systemd Management
+
+**systemd** is the system and service manager for Linux operating systems. It is responsible for managing services, processes, and various units.
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `systemctl`                                  | Main command for managing systemd services and units                        |
+| `systemctl status <service>`                 | Check the status of a service                                               |
+| `systemctl start <service>`                  | Start a service                                                             |
+| `systemctl stop <service>`                   | Stop a running service                                                      |
+| `systemctl restart <service>`                | Restart a service                                                           |
+| `systemctl reload <service>`                 | Reload the configuration of a service without restarting it                 |
+| `systemctl enable <service>`                 | Enable a service to start on boot                                           |
+| `systemctl disable <service>`                | Disable a service from starting on boot                                     |
+| `systemctl is-enabled <service>`             | Check if a service is enabled to start at boot                              |
+| `systemctl daemon-reload`                    | Reload systemd manager configuration files after changes                    |
+| `systemctl list-units --type=service`        | List all systemd services                                                   |
+| `systemctl list-units --failed`              | List failed services                                                        |
+| `journalctl -u <service>`                    | View logs for a specific service                                            |
+| `journalctl -xe`                             | View systemd logs with more details on errors                               |
+| `systemctl mask <service>`                   | Completely disable a service, even if another service tries to start it     |
+| `systemctl unmask <service>`                 | Re-enable a masked service                                                  |
+| `systemctl show <service>`                   | Show detailed properties of a service                                       |
+| `systemctl cat <service>`                    | View the unit file for a service                                            |
+| `systemctl isolate <target>`                 | Switch to a specific system target (e.g., `multi-user.target`, `rescue.target`) |
+
+### Systemd Unit Types
+
+Systemd manages various types of units, not just services.
+
+| Unit Type            | Description                                              |
+|----------------------|----------------------------------------------------------|
+| `.service`           | A system service (e.g., web servers, databases)           |
+| `.socket`            | A socket for inter-process communication                  |
+| `.device`            | A device unit exposed by the Linux kernel                 |
+| `.mount`             | A file system mount point                                |
+| `.automount`         | A mount point that is automatically mounted on access     |
+| `.swap`              | A swap device or file                                     |
+| `.target`            | A group of systemd units (e.g., `multi-user.target`)      |
+| `.timer`             | A scheduling unit similar to cron jobs                    |
+
+### Common Targets
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `systemctl get-default`                      | Show the current default target (e.g., multi-user, graphical)               |
+| `systemctl set-default <target>`             | Set the default target (e.g., `multi-user.target`, `graphical.target`)      |
+| `systemctl isolate <target>`                 | Switch the system to the specified target (e.g., `rescue.target`)           |
 
 ---
 
@@ -339,100 +617,6 @@ This section provides commands for monitoring system performance, processes, CPU
 | `who`                                        | Show who is logged in to the system                                         |
 
 
-## Package Management
-
-### Debian/Ubuntu
-
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `apt-get update`              | Update package list                         |
-| `apt-get upgrade`             | Upgrade all installed packages              |
-| `apt-get install <package>`   | Install a package                           |
-| `apt-get remove <package>`    | Remove a package                            |
-
-### Red Hat/CentOS
-
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `yum update`                  | Update package list                         |
-| `yum install <package>`       | Install a package                           |
-| `yum remove <package>`        | Remove a package                            |
-
----
-
-## User Management
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `adduser <username>`                         | Create a new user with home directory and default shell            |
-| `useradd <username>`                         | Create a new user (minimal setup, no home directory by default)    |
-| `userdel <username>`                         | Delete a user account                                              |
-| `userdel -r <username>`                      | Delete a user account and their home directory                     |
-| `passwd <username>`                          | Change the password for a user                                     |
-| `chage -l <username>`                        | Display password aging information for a user                      |
-| `usermod -aG <groupname> <username>`         | Add a user to a group                                              |
-| `groups <username>`                          | List groups a user is part of                                      |
-| `id <username>`                              | Show user ID (UID), group ID (GID), and other group memberships    |
-| `deluser <username>`                         | Remove a user from the system                                      |
-| `deluser <username> <groupname>`             | Remove a user from a specific group                                |
-| `sudo <command>`                             | Execute a command as the superuser                                 |
-| `su <username>`                              | Switch to another user account (requires that user's password)     |
-| `who`                                        | Show who is logged in                                              |
-| `whoami`                                     | Display the current logged-in user                                 |
-| `last`                                       | Show last logins of users                                          |
-| `w`                                          | Display who is logged in and what they are doing                   |
-| `finger <username>`                          | Display detailed information about a user                          |
-| `getent passwd`                              | Display all users in the system                                    |
-| `vipw`                                       | Safely edit the `/etc/passwd` file (user accounts)                 |
-| `visudo`                                     | Safely edit the `/etc/sudoers` file                                |
-| `chown <owner>:<group> <file>`               | Change ownership of a file                                         |
-| `chmod <permissions> <file>`                 | Change file permissions                                            |
-
----
-
-### Group Management
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `groupadd <groupname>`                       | Create a new group                                                 |
-| `groupdel <groupname>`                       | Delete a group                                                     |
-| `gpasswd -a <username> <groupname>`          | Add a user to a group (alternative to `usermod -aG`)               |
-| `gpasswd -d <username> <groupname>`          | Remove a user from a group                                         |
-| `newgrp <groupname>`                         | Switch to a new group for the current session                      |
-| `groups <username>`                          | Display the groups a user belongs to                               |
-| `getent group <groupname>`                   | Show group entry in `/etc/group`                                   |
-
----
-
-### Account and Session Management
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `chage -E <date> <username>`                 | Set an account expiration date for a user                          |
-| `chage -M <days> <username>`                 | Set maximum number of days a password remains valid                |
-| `chage -m <days> <username>`                 | Set minimum number of days before a password can be changed        |
-| `chage -I <days> <username>`                 | Set the number of days after a password expires before an account is disabled |
-| `faillog -u <username>`                      | Show login failure statistics for a user                           |
-| `faillog -r <username>`                      | Reset failed login count for a user                                |
-| `lastlog`                                    | Show the last login of all users                                   |
-| `pkill -u <username>`                        | Terminate all processes owned by a user                            |
-| `passwd -l <username>`                       | Lock a user account (disallow login)                               |
-| `passwd -u <username>`                       | Unlock a user account                                              |
-| `nologin`                                    | Prevent a user from logging in by setting their shell to `/sbin/nologin` |
-
----
-
-### SSH Key Management for Users
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `ssh-keygen`                                 | Generate a new SSH key pair                                        |
-| `ssh-copy-id <username>@<host>`              | Copy SSH key to a remote host for passwordless login               |
-| `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys` | Manually add SSH public key for user authentication            |
-| `chmod 600 ~/.ssh/authorized_keys`           | Set correct permissions for SSH authorized keys                    |
-
----
-
 ## SSH Management
 
 SSH (Secure Shell) is a protocol used for securely accessing remote machines over a network. This section covers commands for managing SSH connections, keys, and configuration.
@@ -483,6 +667,17 @@ SSH keys provide a secure way to authenticate without using passwords.
 
 ---
 
+### SSH Key Management for Users
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `ssh-keygen`                                 | Generate a new SSH key pair                                        |
+| `ssh-copy-id <username>@<host>`              | Copy SSH key to a remote host for passwordless login               |
+| `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys` | Manually add SSH public key for user authentication            |
+| `chmod 600 ~/.ssh/authorized_keys`           | Set correct permissions for SSH authorized keys                    |
+
+---
+
 ### SSH Security Best Practices
 
 | Best Practice                                 | Description                                                                 |
@@ -495,6 +690,8 @@ SSH keys provide a secure way to authenticate without using passwords.
 | Use strong passphrases for SSH keys          | Protect private keys with strong passphrases.                              |
 | Change the default SSH port                   | Edit `/etc/ssh/sshd_config` and change `Port 22` to another port.        |
 | Enable two-factor authentication               | Add an extra layer of security with 2FA using tools like `Google Authenticator`. |
+
+---
 
 ### SSH Configuration
 
@@ -516,195 +713,6 @@ Host myserver
     Port 2222
     IdentityFile ~/.ssh/myserver_id_rsa
 ```
-## Cron Jobs and Scheduling
-
-### Managing Cron Jobs
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `crontab -e`                                | Edit the current user's crontab file                                      |
-| `crontab -l`                                | List the current user's cron jobs                                          |
-| `crontab -r`                                | Remove the current user's crontab file                                     |
-| `sudo crontab -e -u <username>`            | Edit the crontab for a specified user                                      |
-| `sudo crontab -l -u <username>`            | List the crontab for a specified user                                      |
-| `sudo crontab -r -u <username>`            | Remove the crontab for a specified user                                    |
-
----
-
-### Cron Job Syntax
-Cron jobs are defined using the following syntax:
-<p>* * * * * command_to_run</p>
-
-#### Example Cron Job Entries
-
-| Entry                                        | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `0 5 * * * /path/to/script.sh`             | Run a script every day at 5:00 AM                                         |
-| `*/15 * * * * /path/to/backup.sh`          | Run a backup script every 15 minutes                                       |
-| `0 0 1 * * /path/to/report.sh`             | Run a report script at midnight on the first day of every month           |
-| `30 2 * * 1 /path/to/cleanup.sh`           | Run a cleanup script every Monday at 2:30 AM                              |
-
----
-
-### System-Wide Cron Jobs
-
-System-wide cron jobs are configured in `/etc/crontab` and can also be found in the `/etc/cron.d/` directory.
-
-### Scheduling with `at`
-
-The `at` command is used to schedule one-time tasks.
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `at 10:00`                                  | Schedule a command to run at 10:00 AM (prompt for the command)            |
-| `echo "command_to_run" | at 10:00`         | Schedule a command to run at 10:00 AM                                     |
-| `atq`                                       | List scheduled jobs for the current user                                   |
-| `atrm <job_number>`                         | Remove a scheduled job by its job number                                   |
-
-
-## Systemd Management
-
-**systemd** is the system and service manager for Linux operating systems. It is responsible for managing services, processes, and various units.
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `systemctl`                                  | Main command for managing systemd services and units                        |
-| `systemctl status <service>`                 | Check the status of a service                                               |
-| `systemctl start <service>`                  | Start a service                                                             |
-| `systemctl stop <service>`                   | Stop a running service                                                      |
-| `systemctl restart <service>`                | Restart a service                                                           |
-| `systemctl reload <service>`                 | Reload the configuration of a service without restarting it                 |
-| `systemctl enable <service>`                 | Enable a service to start on boot                                           |
-| `systemctl disable <service>`                | Disable a service from starting on boot                                     |
-| `systemctl is-enabled <service>`             | Check if a service is enabled to start at boot                              |
-| `systemctl daemon-reload`                    | Reload systemd manager configuration files after changes                    |
-| `systemctl list-units --type=service`        | List all systemd services                                                   |
-| `systemctl list-units --failed`              | List failed services                                                        |
-| `journalctl -u <service>`                    | View logs for a specific service                                            |
-| `journalctl -xe`                             | View systemd logs with more details on errors                               |
-| `systemctl mask <service>`                   | Completely disable a service, even if another service tries to start it     |
-| `systemctl unmask <service>`                 | Re-enable a masked service                                                  |
-| `systemctl show <service>`                   | Show detailed properties of a service                                       |
-| `systemctl cat <service>`                    | View the unit file for a service                                            |
-| `systemctl isolate <target>`                 | Switch to a specific system target (e.g., `multi-user.target`, `rescue.target`) |
-
-### Systemd Unit Types
-
-Systemd manages various types of units, not just services.
-
-| Unit Type            | Description                                              |
-|----------------------|----------------------------------------------------------|
-| `.service`           | A system service (e.g., web servers, databases)           |
-| `.socket`            | A socket for inter-process communication                  |
-| `.device`            | A device unit exposed by the Linux kernel                 |
-| `.mount`             | A file system mount point                                |
-| `.automount`         | A mount point that is automatically mounted on access     |
-| `.swap`              | A swap device or file                                     |
-| `.target`            | A group of systemd units (e.g., `multi-user.target`)      |
-| `.timer`             | A scheduling unit similar to cron jobs                    |
-
-### Common Targets
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `systemctl get-default`                      | Show the current default target (e.g., multi-user, graphical)               |
-| `systemctl set-default <target>`             | Set the default target (e.g., `multi-user.target`, `graphical.target`)      |
-| `systemctl isolate <target>`                 | Switch the system to the specified target (e.g., `rescue.target`)           |
-
----
-
-## Process Management:
-
-### Viewing Processes
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ps aux`                                     | List all running processes in detail                                        |
-| `ps -ef`                                     | List processes with full-format output                                      |
-| `top`                                        | Show real-time system resource usage (CPU, memory, processes)               |
-| `htop`                                       | Enhanced interactive process viewer (`htop` needs to be installed separately)|
-| `pgrep <name>`                               | Find the PID(s) of a process by name                                        |
-| `pidof <process>`                            | Find the PID of a running process                                           |
-| `pstree`                                     | Display processes in a tree-like format                                     |
-
-### Managing Processes
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `kill <PID>`                                 | Terminate a process by PID                                                  |
-| `kill -9 <PID>`                              | Forcefully kill a process                                                   |
-| `killall <name>`                             | Kill all processes by name                                                  |
-| `pkill <name>`                               | Kill processes by name (supports regular expressions)                       |
-| `bg`                                         | Resume a suspended job in the background                                    |
-| `fg`                                         | Bring a background job to the foreground                                    |
-| `jobs`                                       | List all background jobs in the current shell                               |
-| `nice -n <priority> <command>`               | Start a process with a specified priority (lower value = higher priority)   |
-| `renice <priority> <PID>`                    | Change the priority of a running process                                    |
-
-### Monitoring Processes
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `top`                                        | Display real-time information about running processes and resource usage    |
-| `htop`                                       | Interactive version of `top` (install separately with `sudo apt-get install htop`) |
-| `uptime`                                     | Show how long the system has been running                                   |
-| `free -m`                                    | Display system memory usage in megabytes                                    |
-| `vmstat`                                     | Report virtual memory statistics                                            |
-| `lsof`                                       | List open files by processes                                                |
-| `strace -p <PID>`                            | Trace system calls made by a process                                        |
-| `watch <command>`                            | Execute a command repeatedly and monitor its output in real-time            |
-
-### Signals
-
-Linux processes can be sent various signals to control their behavior.
-
-| Signal    | Number  | Description                           |
-|-----------|---------|---------------------------------------|
-| `SIGHUP`  | 1       | Hangup, reload configuration          |
-| `SIGINT`  | 2       | Interrupt from keyboard (Ctrl + C)    |
-| `SIGKILL` | 9       | Kill signal, cannot be ignored        |
-| `SIGTERM` | 15      | Termination signal                    |
-| `SIGSTOP` | 19      | Stop process (cannot be ignored)      |
-| `SIGCONT` | 18      | Continue a stopped process            |
-
----
-
-### Background & Foreground Process Management
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `command &`                                  | Run a command in the background                                             |
-| `bg`                                         | Resume a suspended job in the background                                    |
-| `fg`                                         | Bring a background job to the foreground                                    |
-| `jobs`                                       | List current jobs and their statuses                                        |
-| `nohup <command> &`                          | Run a command immune to hangups, in the background                          |
-| `disown <job>`                               | Remove a job from the job table, leaving it running                         |
-
----
-
-### Process Ownership and Security
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ps -u <username>`                           | List all processes belonging to a user                                      |
-| `sudo -u <username> <command>`               | Run a command as a different user                                           |
-| `chown <owner>:<group> <file>`               | Change ownership of files or directories                                    |
-| `chmod <permissions> <file>`                 | Modify permissions for a file or directory                                  |
-| `setfacl -m u:<user>:rwx <file>`             | Set file access control lists (ACLs) for a user on a file                   |
-| `getfacl <file>`                             | View ACL permissions of a file                                              |
-
----
-
-### Monitoring CPU and Memory Usage by Process
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `top`                                        | Display processes sorted by CPU usage                                       |
-| `htop`                                       | Interactive real-time process viewer                                        |
-| `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu` | List processes sorted by CPU usage                                          |
-| `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem` | List processes sorted by memory usage                                       |
-
----
 
 ## Mail Management
 
