@@ -227,26 +227,117 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ## System Monitoring
 
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `df -h`                      | Show disk space usage                       |
-| `du -h <directory>`           | Estimate file space usage                   |
-| `free -h`                    | Display memory usage                        |
-| `uptime`                     | Show system uptime                          |
-| `dmesg`                      | Show kernel message buffer                  |
-| `vmstat`                     | Display system resource usage               |
+This section provides commands for monitoring system performance, processes, CPU, memory, disk I/O, and network activity.
+
+### General System Monitoring
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `top`                                        | Real-time view of CPU and memory usage by processes                         |
+| `htop`                                       | Enhanced, interactive version of `top` with additional features (may require installation) |
+| `vmstat`                                     | Report virtual memory statistics, including processes, memory, paging, block I/O, and CPU activity |
+| `glances`                                    | Comprehensive system monitoring tool (requires installation)                |
+| `uptime`                                     | Show how long the system has been running and system load                   |
+| `watch <command>`                            | Run a command repeatedly at regular intervals and display the output live   |
 
 ---
 
-## Disk Usage
+### CPU Monitoring
 
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `df -h`                      | Display disk usage by mounted partitions    |
-| `du -h <directory>`           | Show the size of files or directories       |
-| `lsblk`                      | List block devices (disks)                  |
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `mpstat`                                     | Display CPU usage per core (from `sysstat` package)                         |
+| `sar`                                        | Collect, report, and save system activity information (including CPU, memory, I/O, etc.) |
+| `lscpu`                                      | Display CPU architecture information (model, cores, speed)                  |
+| `cat /proc/cpuinfo`                          | Display detailed CPU information                                            |
+| `iostat`                                     | CPU and I/O statistics, part of the `sysstat` package                       |
 
 ---
+
+### Memory Monitoring
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `free -h`                                    | Display memory usage in human-readable format (total, used, free, swap)     |
+| `vmstat -s`                                  | Memory and swap statistics in a detailed format                             |
+| `cat /proc/meminfo`                          | View detailed memory statistics                                             |
+| `watch free -h`                              | Monitor memory usage in real-time                                           |
+| `dmidecode --type memory`                    | Display detailed information about installed memory (requires root)         |
+
+---
+
+### Disk Usage and I/O Monitoring
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `df -h`                                      | Display disk space usage in human-readable format                           |
+| `du -sh <directory>`                         | Display the total size of a directory in human-readable format              |
+| `iostat`                                     | Show disk I/O and CPU usage statistics (from `sysstat` package)             |
+| `iotop`                                      | Display real-time disk I/O usage by processes (requires installation)       |
+| `dstat`                                      | Comprehensive resource statistics (including disk I/O)                      |
+| `lsblk`                                      | List block devices, partitions, and file systems                            |
+| `blkid`                                      | Display block device attributes such as UUIDs and file system types         |
+| `df -i`                                      | Show inode usage for file systems                                           |
+| `du -ah <directory>`                         | Show disk usage for all files and directories                               |
+| `hdparm -t /dev/sda`                         | Test read speed of a disk (may require installation)                        |
+
+---
+
+### Process Monitoring
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ps aux`                                     | List all running processes with detailed information                        |
+| `pgrep <process-name>`                       | Search for a running process by name                                        |
+| `pidof <process-name>`                       | Find the process ID (PID) of a running process                              |
+| `pstree`                                     | Show processes in a tree-like format                                        |
+| `kill <PID>`                                 | Send a signal to terminate a process using its PID                          |
+| `killall <process-name>`                     | Terminate all processes matching a specific name                            |
+| `pkill <process-name>`                       | Send a signal to processes based on name and other attributes               |
+| `renice <priority> <PID>`                    | Change the priority of a running process                                    |
+| `strace -p <PID>`                            | Trace system calls and signals for a specific process                       |
+| `lsof`                                       | List open files by processes                                                |
+| `lsof -i :<port>`                            | List processes using a specific network port                                |
+| `nice -n <priority> <command>`               | Start a command with a specified priority                                   |
+
+---
+
+### Network Monitoring
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `netstat -tuln`                              | Show listening ports and their associated services                          |
+| `ss -tuln`                                   | More modern version of `netstat`, shows listening ports                     |
+| `iftop`                                      | Display real-time network bandwidth usage (requires installation)           |
+| `nload`                                      | Show incoming and outgoing network traffic (requires installation)          |
+| `tcpdump -i <interface>`                     | Capture and display network packets on a specific interface                 |
+| `iptraf-ng`                                  | Real-time network traffic monitoring (requires installation)                |
+| `ping <hostname/IP>`                         | Test network connectivity by sending ICMP echo requests                     |
+| `traceroute <hostname/IP>`                   | Trace the path packets take to reach a network host                         |
+| `ss -s`                                      | Show detailed socket statistics                                             |
+| `arp -a`                                     | Display the system's ARP table (address resolution protocol)                |
+| `dig <hostname>`                             | Query DNS servers for information about a hostname                          |
+| `host <hostname>`                            | Perform DNS lookup for a domain or IP address                               |
+| `nslookup <hostname>`                        | Query DNS to resolve a hostname to an IP address                            |
+| `mtr <hostname>`                             | Network diagnostic tool combining `ping` and `traceroute` (requires installation) |
+
+---
+
+### Miscellaneous System Monitoring
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `uptime`                                     | Show how long the system has been running and the current load average      |
+| `last`                                       | Show the last logins of users on the system                                 |
+| `sar`                                        | Collect and display system activity statistics (CPU, memory, I/O, network)  |
+| `dstat`                                      | Tool for generating detailed performance and resource statistics            |
+| `vmstat`                                     | Report information about processes, memory, paging, and I/O                 |
+| `iostat -x`                                  | Show extended I/O statistics, including disk utilization                    |
+| `tload`                                      | Show a graphical representation of system load in the terminal              |
+| `uptime`                                     | Display system uptime and load averages                                     |
+| `w`                                          | Show who is logged in and what they are doing                               |
+| `who`                                        | Show who is logged in to the system                                         |
+
 
 ## Package Management
 
