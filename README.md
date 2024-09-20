@@ -66,19 +66,6 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ---
 
-## Process Management
-
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `ps aux`                     | List all running processes                  |
-| `top`                        | Display real-time system stats              |
-| `kill <PID>`                 | Terminate a process by PID                  |
-| `killall <process>`          | Terminate all instances of a process        |
-| `bg`                         | Resume a suspended job in the background    |
-| `fg`                         | Bring a job to the foreground               |
-
----
-
 ## System Monitoring
 
 | Command                      | Description                                 |
@@ -207,4 +194,146 @@ A collection of common Linux commands for system navigation, file management, ne
 | `ssh-copy-id <user>@<host>`   | Copy SSH key to remote host                 |
 
 ---
+
+## Systemd Management
+
+**systemd** is the system and service manager for Linux operating systems. It is responsible for managing services, processes, and various units.
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `systemctl`                                  | Main command for managing systemd services and units                        |
+| `systemctl status <service>`                 | Check the status of a service                                               |
+| `systemctl start <service>`                  | Start a service                                                             |
+| `systemctl stop <service>`                   | Stop a running service                                                      |
+| `systemctl restart <service>`                | Restart a service                                                           |
+| `systemctl reload <service>`                 | Reload the configuration of a service without restarting it                 |
+| `systemctl enable <service>`                 | Enable a service to start on boot                                           |
+| `systemctl disable <service>`                | Disable a service from starting on boot                                     |
+| `systemctl is-enabled <service>`             | Check if a service is enabled to start at boot                              |
+| `systemctl daemon-reload`                    | Reload systemd manager configuration files after changes                    |
+| `systemctl list-units --type=service`        | List all systemd services                                                   |
+| `systemctl list-units --failed`              | List failed services                                                        |
+| `journalctl -u <service>`                    | View logs for a specific service                                            |
+| `journalctl -xe`                             | View systemd logs with more details on errors                               |
+| `systemctl mask <service>`                   | Completely disable a service, even if another service tries to start it     |
+| `systemctl unmask <service>`                 | Re-enable a masked service                                                  |
+| `systemctl show <service>`                   | Show detailed properties of a service                                       |
+| `systemctl cat <service>`                    | View the unit file for a service                                            |
+| `systemctl isolate <target>`                 | Switch to a specific system target (e.g., `multi-user.target`, `rescue.target`) |
+
+### Systemd Unit Types
+
+Systemd manages various types of units, not just services.
+
+| Unit Type            | Description                                              |
+|----------------------|----------------------------------------------------------|
+| `.service`           | A system service (e.g., web servers, databases)           |
+| `.socket`            | A socket for inter-process communication                  |
+| `.device`            | A device unit exposed by the Linux kernel                 |
+| `.mount`             | A file system mount point                                |
+| `.automount`         | A mount point that is automatically mounted on access     |
+| `.swap`              | A swap device or file                                     |
+| `.target`            | A group of systemd units (e.g., `multi-user.target`)      |
+| `.timer`             | A scheduling unit similar to cron jobs                    |
+
+### Common Targets
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `systemctl get-default`                      | Show the current default target (e.g., multi-user, graphical)               |
+| `systemctl set-default <target>`             | Set the default target (e.g., `multi-user.target`, `graphical.target`)      |
+| `systemctl isolate <target>`                 | Switch the system to the specified target (e.g., `rescue.target`)           |
+
+---
+
+## Process Management:
+
+### Viewing Processes
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ps aux`                                     | List all running processes in detail                                        |
+| `ps -ef`                                     | List processes with full-format output                                      |
+| `top`                                        | Show real-time system resource usage (CPU, memory, processes)               |
+| `htop`                                       | Enhanced interactive process viewer (`htop` needs to be installed separately)|
+| `pgrep <name>`                               | Find the PID(s) of a process by name                                        |
+| `pidof <process>`                            | Find the PID of a running process                                           |
+| `pstree`                                     | Display processes in a tree-like format                                     |
+
+### Managing Processes
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `kill <PID>`                                 | Terminate a process by PID                                                  |
+| `kill -9 <PID>`                              | Forcefully kill a process                                                   |
+| `killall <name>`                             | Kill all processes by name                                                  |
+| `pkill <name>`                               | Kill processes by name (supports regular expressions)                       |
+| `bg`                                         | Resume a suspended job in the background                                    |
+| `fg`                                         | Bring a background job to the foreground                                    |
+| `jobs`                                       | List all background jobs in the current shell                               |
+| `nice -n <priority> <command>`               | Start a process with a specified priority (lower value = higher priority)   |
+| `renice <priority> <PID>`                    | Change the priority of a running process                                    |
+
+### Monitoring Processes
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `top`                                        | Display real-time information about running processes and resource usage    |
+| `htop`                                       | Interactive version of `top` (install separately with `sudo apt-get install htop`) |
+| `uptime`                                     | Show how long the system has been running                                   |
+| `free -m`                                    | Display system memory usage in megabytes                                    |
+| `vmstat`                                     | Report virtual memory statistics                                            |
+| `lsof`                                       | List open files by processes                                                |
+| `strace -p <PID>`                            | Trace system calls made by a process                                        |
+| `watch <command>`                            | Execute a command repeatedly and monitor its output in real-time            |
+
+### Signals
+
+Linux processes can be sent various signals to control their behavior.
+
+| Signal    | Number  | Description                           |
+|-----------|---------|---------------------------------------|
+| `SIGHUP`  | 1       | Hangup, reload configuration          |
+| `SIGINT`  | 2       | Interrupt from keyboard (Ctrl + C)    |
+| `SIGKILL` | 9       | Kill signal, cannot be ignored        |
+| `SIGTERM` | 15      | Termination signal                    |
+| `SIGSTOP` | 19      | Stop process (cannot be ignored)      |
+| `SIGCONT` | 18      | Continue a stopped process            |
+
+---
+
+### Background & Foreground Process Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `command &`                                  | Run a command in the background                                             |
+| `bg`                                         | Resume a suspended job in the background                                    |
+| `fg`                                         | Bring a background job to the foreground                                    |
+| `jobs`                                       | List current jobs and their statuses                                        |
+| `nohup <command> &`                          | Run a command immune to hangups, in the background                          |
+| `disown <job>`                               | Remove a job from the job table, leaving it running                         |
+
+---
+
+### Process Ownership and Security
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ps -u <username>`                           | List all processes belonging to a user                                      |
+| `sudo -u <username> <command>`               | Run a command as a different user                                           |
+| `chown <owner>:<group> <file>`               | Change ownership of files or directories                                    |
+| `chmod <permissions> <file>`                 | Modify permissions for a file or directory                                  |
+| `setfacl -m u:<user>:rwx <file>`             | Set file access control lists (ACLs) for a user on a file                   |
+| `getfacl <file>`                             | View ACL permissions of a file                                              |
+
+---
+
+### Monitoring CPU and Memory Usage by Process
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `top`                                        | Display processes sorted by CPU usage                                       |
+| `htop`                                       | Interactive real-time process viewer                                        |
+| `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu` | List processes sorted by CPU usage                                          |
+| `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem` | List processes sorted by memory usage                                       |
 
