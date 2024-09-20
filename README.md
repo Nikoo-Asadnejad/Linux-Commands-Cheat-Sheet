@@ -1,4 +1,4 @@
-# Linux-Commands-Cheet-Sheet
+# Linux-Commands-Cheat-Sheet
 
 A collection of common Linux commands for system navigation, file management, networking, and more.
 
