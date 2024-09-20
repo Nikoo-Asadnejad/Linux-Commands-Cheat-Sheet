@@ -662,6 +662,59 @@ Linux processes can be sent various signals to control their behavior.
 
 ---
 
+## Mail Management
+
+### Sending Mail
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `mail <recipient>`                           | Open the mail client to send an email                                      |
+| `echo "Email body" | mail -s "Subject" <recipient>` | Send an email with a subject from the command line                      |
+| `sendmail <recipient>`                       | Send an email using the sendmail command                                   |
+| `mailx -s "Subject" <recipient> < <file>`   | Send the contents of a file as the body of the email                       |
+| `mutt -s "Subject" <recipient> < <file>`    | Send an email with a subject using mutt                                    |
+| `ssmtp <recipient>`                          | Send an email using ssmtp (simple SMTP client)                            |
+| `mail -c <cc_recipient>`                    | Send a carbon copy (CC) of the email to another recipient                  |
+| `mail -b <bcc_recipient>`                   | Send a blind carbon copy (BCC) of the email to another recipient           |
+
+---
+
+### Common Mail Services
+
+| Service                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `postfix`                                   | A widely used mail transfer agent (MTA)                                   |
+| `sendmail`                                  | A traditional mail transfer agent, often used for sending mail            |
+| `exim`                                      | Another popular mail transfer agent                                        |
+| `ssmtp`                                     | A simple utility to send emails via SMTP                                   |
+| `mutt`                                      | A text-based email client for Unix                                         |
+| `mailx`                                     | An enhanced version of the mail command                                    |
+
+---
+
+### Mail Troubleshooting
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `tail -f /var/log/mail.log`                 | Monitor mail logs for sending issues (Debian/Ubuntu)                      |
+| `grep "error" /var/log/mail.log`            | Search for errors in the mail log                                          |
+| `mailq`                                     | View the mail queue                                                       |
+| `sendmail -bv <recipient>`                  | Verify if an email can be sent to a recipient                             |
+
+### Mail Configuration
+
+Configuration files for mail services can typically be found in `/etc/mail/` or `/etc/`.
+
+#### Example `/etc/ssmtp/ssmtp.conf` Configuration
+
+```plaintext
+root=postmaster
+mailhub=smtp.example.com:587
+AuthUser=username
+AuthPass=password
+UseSTARTTLS=YES
+```
+
 ## Kernel and Modules Management
 
 This section provides commands for managing the Linux kernel and its modules, including loading, unloading, and querying kernel modules.
