@@ -516,6 +516,50 @@ Host myserver
     Port 2222
     IdentityFile ~/.ssh/myserver_id_rsa
 ```
+## Cron Jobs and Scheduling
+
+### Managing Cron Jobs
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `crontab -e`                                | Edit the current user's crontab file                                      |
+| `crontab -l`                                | List the current user's cron jobs                                          |
+| `crontab -r`                                | Remove the current user's crontab file                                     |
+| `sudo crontab -e -u <username>`            | Edit the crontab for a specified user                                      |
+| `sudo crontab -l -u <username>`            | List the crontab for a specified user                                      |
+| `sudo crontab -r -u <username>`            | Remove the crontab for a specified user                                    |
+
+---
+
+### Cron Job Syntax
+Cron jobs are defined using the following syntax:
+<p>* * * * * command_to_run</p>
+
+#### Example Cron Job Entries
+
+| Entry                                        | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `0 5 * * * /path/to/script.sh`             | Run a script every day at 5:00 AM                                         |
+| `*/15 * * * * /path/to/backup.sh`          | Run a backup script every 15 minutes                                       |
+| `0 0 1 * * /path/to/report.sh`             | Run a report script at midnight on the first day of every month           |
+| `30 2 * * 1 /path/to/cleanup.sh`           | Run a cleanup script every Monday at 2:30 AM                              |
+
+---
+
+### System-Wide Cron Jobs
+
+System-wide cron jobs are configured in `/etc/crontab` and can also be found in the `/etc/cron.d/` directory.
+
+### Scheduling with `at`
+
+The `at` command is used to schedule one-time tasks.
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `at 10:00`                                  | Schedule a command to run at 10:00 AM (prompt for the command)            |
+| `echo "command_to_run" | at 10:00`         | Schedule a command to run at 10:00 AM                                     |
+| `atq`                                       | List scheduled jobs for the current user                                   |
+| `atrm <job_number>`                         | Remove a scheduled job by its job number                                   |
 
 
 ## Systemd Management
