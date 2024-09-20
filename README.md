@@ -684,3 +684,100 @@ This section provides commands for managing the Linux kernel and its modules, in
 | `make mrproper`                              | Clean up all kernel build files and configurations                          |
 | `cp /boot/config-$(uname -r) .config`        | Copy the current kernel config file as a base for compiling                 |
 
+---
+
+## Boot, Bootloader (GRUB), and EFI Firmware
+
+This section covers commands related to system boot, managing the GRUB bootloader, and working with EFI/UEFI firmware.
+
+---
+
+### GRUB Bootloader Management
+
+GRUB (GRand Unified Bootloader) is the default bootloader for many Linux distributions, and it manages which kernel or operating system to boot.
+
+#### Common GRUB Commands
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `grub-install /dev/sda`                      | Install GRUB bootloader on the specified disk (e.g., `/dev/sda`)            |
+| `grub-mkconfig -o /boot/grub/grub.cfg`       | Generate the GRUB configuration file (run after installing or updating GRUB)|
+| `update-grub`                                | Update GRUB configuration (Debian/Ubuntu)                                   |
+| `grub-set-default <entry>`                   | Set the default boot entry by specifying the menu entry index or title      |
+| `grub-reboot <entry>`                        | Reboot the system into a specific GRUB entry once                           |
+| `grub-editenv list`                          | List the saved GRUB environment variables                                   |
+| `grub2-mkconfig -o /boot/grub2/grub.cfg`     | Generate GRUB configuration (Red Hat/CentOS/Fedora)                         |
+| `grub2-install /dev/sda`                     | Install GRUB on Red Hat-based systems (RHEL/CentOS/Fedora)                  |
+| `nano /etc/default/grub`                     | Edit GRUB configuration file for setting timeout, default OS, etc.          |
+
+#### GRUB Configuration Example
+
+You can manually edit `/etc/default/grub` to modify boot options, such as default kernel, timeout, or adding kernel boot parameters.
+
+```bash
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_CMDLINE_LINUX="quiet splash"
+GRUB_GFXMODE=1920x1080
+```
+After making changes, update the GRUB configuration:
+```bash
+sudo update-grub
+```
+
+### EFI/UEFI Firmware Management
+
+EFI (Extensible Firmware Interface) or UEFI (Unified Extensible Firmware Interface) is the modern replacement for the traditional BIOS. It manages the system boot process and offers advanced features like secure boot, boot entries management, and boot order control.
+
+#### EFI/UEFI Commands
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `efibootmgr`                                 | Manage UEFI boot entries and settings                                       |
+| `efibootmgr -v`                              | List all UEFI boot entries in verbose mode                                  |
+| `efibootmgr -n <boot-number>`                | Set the next boot entry for the system to boot from once                    |
+| `efibootmgr -o 0001,0002`                    | Change the boot order to prioritize boot entry 0001 followed by 0002        |
+| `efibootmgr -b 0003 -B`                      | Remove the UEFI boot entry number 0003                                      |
+| `efibootmgr -c -d /dev/sda -p 1 -L "Linux" -l /vmlinuz` | Create a new boot entry for Linux on the EFI partition on `/dev/sda1`     |
+| `efibootmgr -t 5`                            | Set a 5-second timeout for the UEFI boot menu                               |
+| `efibootmgr -a <boot-number>`                | Activate a specific boot entry                                              |
+
+---
+
+#### Viewing and Modifying EFI Variables
+
+EFI variables contain information about system settings and configuration.
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `ls /sys/firmware/efi/efivars/`              | List all EFI variables on the system                                        |
+| `cat /sys/firmware/efi/fw_platform_size`     | Display whether the platform is 32-bit or 64-bit UEFI                       |
+| `efivar --list`                              | List all UEFI variables in a readable format                                |
+| `efivar --print <variable>`                  | Display detailed information about a specific EFI variable                  |
+| `modprobe efivars`                           | Load the `efivars` module to access UEFI variables                         |
+
+---
+
+#### Secure Boot Management
+
+Secure Boot is a feature of UEFI that only allows signed software (such as bootloaders and operating systems) to boot. 
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `mokutil --sb-state`                         | Check the current state of Secure Boot                                      |
+| `mokutil --enable-validation`                | Enable Secure Boot validation                                               |
+| `mokutil --disable-validation`               | Disable Secure Boot validation                                              |
+| `mokutil --list-enrolled`                    | List the keys enrolled in Secure Boot                                       |
+| `mokutil --import <keyfile>`                 | Import a new key to be used for Secure Boot                                 |
+| `mokutil --reset`                            | Reset all Secure Boot keys to their default state                           |
+
+---
+
+#### Booting into UEFI Firmware
+
+To enter the UEFI firmware settings from Linux:
+
+1. **Systemd-based distributions**:
+   ```bash
+   systemctl reboot --firmware-setup
+
