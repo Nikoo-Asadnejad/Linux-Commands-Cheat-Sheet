@@ -125,13 +125,74 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ## User Management
 
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `adduser <username>`          | Create a new user                           |
-| `passwd <username>`           | Change user password                        |
-| `usermod -aG <group> <user>`  | Add a user to a group                       |
-| `deluser <username>`          | Delete a user                               |
-| `who`                         | Show who is logged in                       |
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `adduser <username>`                         | Create a new user with home directory and default shell            |
+| `useradd <username>`                         | Create a new user (minimal setup, no home directory by default)    |
+| `userdel <username>`                         | Delete a user account                                              |
+| `userdel -r <username>`                      | Delete a user account and their home directory                     |
+| `passwd <username>`                          | Change the password for a user                                     |
+| `chage -l <username>`                        | Display password aging information for a user                      |
+| `usermod -aG <groupname> <username>`         | Add a user to a group                                              |
+| `groups <username>`                          | List groups a user is part of                                      |
+| `id <username>`                              | Show user ID (UID), group ID (GID), and other group memberships    |
+| `deluser <username>`                         | Remove a user from the system                                      |
+| `deluser <username> <groupname>`             | Remove a user from a specific group                                |
+| `sudo <command>`                             | Execute a command as the superuser                                 |
+| `su <username>`                              | Switch to another user account (requires that user's password)     |
+| `who`                                        | Show who is logged in                                              |
+| `whoami`                                     | Display the current logged-in user                                 |
+| `last`                                       | Show last logins of users                                          |
+| `w`                                          | Display who is logged in and what they are doing                   |
+| `finger <username>`                          | Display detailed information about a user                          |
+| `getent passwd`                              | Display all users in the system                                    |
+| `vipw`                                       | Safely edit the `/etc/passwd` file (user accounts)                 |
+| `visudo`                                     | Safely edit the `/etc/sudoers` file                                |
+| `chown <owner>:<group> <file>`               | Change ownership of a file                                         |
+| `chmod <permissions> <file>`                 | Change file permissions                                            |
+
+---
+
+### Group Management
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `groupadd <groupname>`                       | Create a new group                                                 |
+| `groupdel <groupname>`                       | Delete a group                                                     |
+| `gpasswd -a <username> <groupname>`          | Add a user to a group (alternative to `usermod -aG`)               |
+| `gpasswd -d <username> <groupname>`          | Remove a user from a group                                         |
+| `newgrp <groupname>`                         | Switch to a new group for the current session                      |
+| `groups <username>`                          | Display the groups a user belongs to                               |
+| `getent group <groupname>`                   | Show group entry in `/etc/group`                                   |
+
+---
+
+### Account and Session Management
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `chage -E <date> <username>`                 | Set an account expiration date for a user                          |
+| `chage -M <days> <username>`                 | Set maximum number of days a password remains valid                |
+| `chage -m <days> <username>`                 | Set minimum number of days before a password can be changed        |
+| `chage -I <days> <username>`                 | Set the number of days after a password expires before an account is disabled |
+| `faillog -u <username>`                      | Show login failure statistics for a user                           |
+| `faillog -r <username>`                      | Reset failed login count for a user                                |
+| `lastlog`                                    | Show the last login of all users                                   |
+| `pkill -u <username>`                        | Terminate all processes owned by a user                            |
+| `passwd -l <username>`                       | Lock a user account (disallow login)                               |
+| `passwd -u <username>`                       | Unlock a user account                                              |
+| `nologin`                                    | Prevent a user from logging in by setting their shell to `/sbin/nologin` |
+
+---
+
+### SSH Key Management for Users
+
+| Command                                      | Description                                                       |
+|----------------------------------------------|-------------------------------------------------------------------|
+| `ssh-keygen`                                 | Generate a new SSH key pair                                        |
+| `ssh-copy-id <username>@<host>`              | Copy SSH key to a remote host for passwordless login               |
+| `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys` | Manually add SSH public key for user authentication            |
+| `chmod 600 ~/.ssh/authorized_keys`           | Set correct permissions for SSH authorized keys                    |
 
 ---
 
