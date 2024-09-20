@@ -587,3 +587,100 @@ Linux processes can be sent various signals to control their behavior.
 | `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu` | List processes sorted by CPU usage                                          |
 | `ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem` | List processes sorted by memory usage                                       |
 
+---
+
+## Kernel and Modules Management
+
+This section provides commands for managing the Linux kernel and its modules, including loading, unloading, and querying kernel modules.
+
+### Kernel Information
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `uname -r`                                   | Display the current kernel version                                          |
+| `uname -a`                                   | Display all system information, including the kernel version                |
+| `hostnamectl`                                | Show information about the host, including kernel version                   |
+| `cat /proc/version`                          | Display kernel version information from the `/proc` filesystem              |
+| `dmesg`                                      | Display boot and kernel log messages                                        |
+| `dmesg | grep <keyword>`                     | Filter kernel messages for specific keywords                                |
+| `ls /boot/`                                  | List the files related to the kernel, including kernel images               |
+
+---
+
+### Kernel Module Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `lsmod`                                      | List currently loaded kernel modules                                        |
+| `modinfo <module_name>`                      | Display detailed information about a specific kernel module                 |
+| `modprobe <module_name>`                     | Load a kernel module into the running kernel                                |
+| `modprobe -r <module_name>`                  | Remove a kernel module from the running kernel                              |
+| `insmod <path_to_module>`                    | Insert a module into the kernel (requires the full path to the module file) |
+| `rmmod <module_name>`                        | Remove a kernel module                                                      |
+| `depmod -a`                                  | Generate a list of module dependencies                                      |
+| `modprobe --show-depends <module_name>`      | Show module dependencies before loading it                                  |
+| `ls /lib/modules/$(uname -r)/kernel/`        | List the kernel modules available for the current kernel                    |
+
+---
+
+### Kernel Parameters Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `sysctl -a`                                  | Display all kernel parameters (sysctl settings)                             |
+| `sysctl <parameter>`                         | View the current value of a specific kernel parameter                       |
+| `sysctl -w <parameter>=<value>`              | Set the value of a kernel parameter at runtime                              |
+| `cat /proc/sys/<parameter>`                  | View a kernel parameter's current value directly from the `/proc` filesystem|
+| `echo <value> > /proc/sys/<parameter>`       | Temporarily change a kernel parameter (until reboot)                        |
+| `nano /etc/sysctl.conf`                      | Edit the sysctl configuration file to apply kernel parameter changes permanently |
+| `sysctl -p`                                  | Reload sysctl settings from the configuration file                          |
+
+---
+
+### Kernel Boot Parameters
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `cat /proc/cmdline`                          | Show the kernel parameters passed at boot time                              |
+| `nano /etc/default/grub`                     | Edit GRUB configuration to permanently modify kernel boot parameters        |
+| `grub-mkconfig -o /boot/grub/grub.cfg`       | Rebuild the GRUB configuration file after making changes                    |
+| `update-grub`                                | Update GRUB to apply boot configuration changes                             |
+
+---
+
+### Rebuilding the Initramfs
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `mkinitcpio -p linux`                        | Rebuild the initramfs for Arch-based systems                                |
+| `update-initramfs -u`                        | Update the initramfs for the current kernel (Debian/Ubuntu)                 |
+| `dracut -f`                                  | Regenerate initramfs on systems using Dracut                                |
+
+---
+
+### Kernel Upgrade and Management
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `apt-cache search linux-image`               | Search for available kernel versions (Debian/Ubuntu)                        |
+| `apt install linux-image-<version>`          | Install a specific kernel version (Debian/Ubuntu)                           |
+| `dnf list kernel`                            | List available kernel versions (Fedora)                                     |
+| `dnf install kernel-<version>`               | Install a specific kernel version (Fedora)                                  |
+| `yum update kernel`                          | Update the kernel to the latest version (CentOS/Red Hat)                    |
+| `grubby --default-kernel`                    | Show the default kernel used at boot time                                   |
+| `grubby --set-default /boot/vmlinuz-<version>`| Set a specific kernel as the default for booting (RHEL/CentOS)              |
+| `reboot`                                     | Reboot the system to load the newly installed kernel                        |
+
+---
+
+### Kernel Compilation (Advanced)
+
+| Command                                      | Description                                                                 |
+|----------------------------------------------|-----------------------------------------------------------------------------|
+| `make menuconfig`                            | Configure kernel options before compiling                                   |
+| `make -j$(nproc)`                            | Compile the kernel using all available CPU cores                            |
+| `make modules_install`                       | Install compiled kernel modules                                             |
+| `make install`                               | Install the compiled kernel                                                 |
+| `make mrproper`                              | Clean up all kernel build files and configurations                          |
+| `cp /boot/config-$(uname -r) .config`        | Copy the current kernel config file as a base for compiling                 |
+
