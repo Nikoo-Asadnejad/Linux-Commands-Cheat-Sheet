@@ -6,17 +6,18 @@ A collection of common Linux commands for system navigation, file management, ne
 1. [Basic Commands](#basic-commands)
 2. [File and Directory Management](#file-and-directory-management)
 3. [File Permissions](#file-permissions)
-4. [User Management](#user-management)
-5. [Package Management](#package-management)
-6. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
-7. [Process Management](#process-management)
-8. [System Monitoring](#system-monitoring)
-9. [Systemd Management](systemd-management)
-10. [Networking](#networking)
-11. [SSH Management](#ssh-management)
-12. [Mail Management](mail-management)
-13. [Kernel and Modules Management](#kernel-and-modules-management)
-14. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
+4. [Screen](#screen)
+5. [User Management](#user-management)
+6. [Package Management](#package-management)
+7. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
+8. [Process Management](#process-management)
+9. [System Monitoring](#system-monitoring)
+10. [Systemd Management](systemd-management)
+11. [Networking](#networking)
+12. [SSH Management](#ssh-management)
+13. [Mail Management](mail-management)
+14. [Kernel and Modules Management](#kernel-and-modules-management)
+15. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
 
 ---
 
@@ -112,6 +113,23 @@ A collection of common Linux commands for system navigation, file management, ne
 | `chgrp <group> <file>`                       | Change the group of a file                                                  |
 
 ---
+
+## Screen
+
+| Command                      | Description                                         |
+|------------------------------|-----------------------------------------------------|
+| `screen`                     | Start a new screen session                          |
+| `screen -S <session_name>`    | Start a new screen session with a custom name       |
+| `screen -ls`                 | List all active screen sessions                     |
+| `screen -r <session_id>`      | Reattach to a detached screen session               |
+| `Ctrl + a + d`               | Detach from the current screen session               |
+| `screen -X -S <session_id> quit` | Force quit a screen session                     |
+| `Ctrl + a + k`               | Kill the current screen                             |
+| `screen -x <session_id>`      | Attach to a running session shared by multiple users|
+| `Ctrl + a + n`               | Switch to the next window in the screen session      |
+| `Ctrl + a + p`               | Switch to the previous window in the screen session  |
+| `Ctrl + a + c`               | Create a new window in the current screen session    |
+| `Ctrl + a + "`               | List all windows in the current session              |
 
 ## User Management
 
