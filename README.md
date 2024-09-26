@@ -4,21 +4,22 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ## Table of Contents
 1. [Basic Commands](#basic-commands)
-2. [File and Directory Management](#file-and-directory-management)
-3. [File Permissions](#file-permissions)
-4. [Screen](#screen)
-5. [Shutdown and Sleep](#shutdown_and_sleep)
-6. [User Management](#user-management)
-7. [Package Management](#package-management)
-8. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
-9. [Process Management](#process-management)
-10. [System Monitoring](#system-monitoring)
-11. [Systemd Management](systemd-management)
-12. [Networking](#networking)
-13. [SSH Management](#ssh-management)
-14. [Mail Management](mail-management)
-15. [Kernel and Modules Management](#kernel-and-modules-management)
-16. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
+2. [Operators](#operators)
+3. [File and Directory Management](#file-and-directory-management)
+4. [File Permissions](#file-permissions)
+5. [Screen](#screen)
+6. [Shutdown and Sleep](#shutdown_and_sleep)
+7. [User Management](#user-management)
+8. [Package Management](#package-management)
+9. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
+10. [Process Management](#process-management)
+11. [System Monitoring](#system-monitoring)
+12. [Systemd Management](systemd-management)
+13. [Networking](#networking)
+14. [SSH Management](#ssh-management)
+15. [Mail Management](mail-management)
+16. [Kernel and Modules Management](#kernel-and-modules-management)
+17. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
 
 ---
 
@@ -65,6 +66,25 @@ A collection of common Linux commands for system navigation, file management, ne
 | `uname -m`                                   | Show the machine hardware name (e.g., x86_64)                               |
 
 ---
+
+## Operators
+
+| Operator        | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `|` (Pipe)      | Pass the output of one command as input to another command (`ls | grep txt`) |
+| `>`             | Redirect output to a file, overwriting the file if it exists (`echo "Hello" > file.txt`) |
+| `>>`            | Redirect output to a file, appending if the file exists (`echo "Hello" >> file.txt`) |
+| `<`             | Redirect input from a file to a command (`sort < file.txt`)                 |
+| `2>`            | Redirect error output to a file (`command 2> error.log`)                    |
+| `2>&1`          | Redirect error output to standard output (`command > file.txt 2>&1`)        |
+| `&`             | Run a command in the background (`command &`)                               |
+| `&&`            | Run the next command only if the previous command succeeds (`command1 && command2`) |
+| `||`            | Run the next command only if the previous command fails (`command1 || command2`) |
+| `;`             | Run multiple commands in sequence (`command1; command2; command3`)          |
+| `$(command)`    | Command substitution: use the output of a command as an argument (`echo $(date)`) |
+| `&>`            | Redirect both standard output and error output to a file (`command &> output.log`) |
+
+___
 
 ## File and Directory Management
 
@@ -153,6 +173,8 @@ ___
 | `pm-suspend`                 | Suspend the system (if `pm-utils` is installed)       |
 | `pm-hibernate`               | Hibernate the system (if `pm-utils` is installed)     |
 | `pm-suspend-hybrid`          | Hibernate and suspend the system (if `pm-utils` is installed) |
+
+___
 
 ## User Management
 
