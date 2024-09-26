@@ -7,17 +7,18 @@ A collection of common Linux commands for system navigation, file management, ne
 2. [File and Directory Management](#file-and-directory-management)
 3. [File Permissions](#file-permissions)
 4. [Screen](#screen)
-5. [User Management](#user-management)
-6. [Package Management](#package-management)
-7. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
-8. [Process Management](#process-management)
-9. [System Monitoring](#system-monitoring)
-10. [Systemd Management](systemd-management)
-11. [Networking](#networking)
-12. [SSH Management](#ssh-management)
-13. [Mail Management](mail-management)
-14. [Kernel and Modules Management](#kernel-and-modules-management)
-15. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
+5. [Shutdown and Sleep](#shutdown_and_sleep)
+6. [User Management](#user-management)
+7. [Package Management](#package-management)
+8. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
+9. [Process Management](#process-management)
+10. [System Monitoring](#system-monitoring)
+11. [Systemd Management](systemd-management)
+12. [Networking](#networking)
+13. [SSH Management](#ssh-management)
+14. [Mail Management](mail-management)
+15. [Kernel and Modules Management](#kernel-and-modules-management)
+16. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
 
 ---
 
@@ -130,6 +131,28 @@ A collection of common Linux commands for system navigation, file management, ne
 | `Ctrl + a + p`               | Switch to the previous window in the screen session  |
 | `Ctrl + a + c`               | Create a new window in the current screen session    |
 | `Ctrl + a + "`               | List all windows in the current session              |
+
+___
+
+## Shutdown and Sleep
+
+| Command                      | Description                                           |
+|------------------------------|-------------------------------------------------------|
+| `shutdown now`               | Shut down the system immediately                      |
+| `shutdown -h now`            | Halt the system immediately                           |
+| `shutdown -r now`            | Restart the system immediately                        |
+| `shutdown -h +<time>`        | Schedule shutdown after a specified time (e.g., `+10` for 10 minutes) |
+| `shutdown -c`                | Cancel a scheduled shutdown                           |
+| `reboot`                     | Reboot the system                                     |
+| `halt`                       | Halt the system without powering it off               |
+| `systemctl poweroff`         | Power off the system                                  |
+| `systemctl reboot`           | Reboot the system                                     |
+| `systemctl suspend`          | Suspend the system (sleep mode)                       |
+| `systemctl hibernate`        | Hibernate the system                                  |
+| `systemctl hybrid-sleep`     | Hibernate and suspend the system                      |
+| `pm-suspend`                 | Suspend the system (if `pm-utils` is installed)       |
+| `pm-hibernate`               | Hibernate the system (if `pm-utils` is installed)     |
+| `pm-suspend-hybrid`          | Hibernate and suspend the system (if `pm-utils` is installed) |
 
 ## User Management
 
