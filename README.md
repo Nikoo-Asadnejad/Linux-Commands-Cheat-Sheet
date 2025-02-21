@@ -457,6 +457,7 @@ Systemd manages various types of units, not just services.
 | Command                                      | Description                                                                 |
 |----------------------------------------------|-----------------------------------------------------------------------------|
 | `ip addr`                                    | Show all network interfaces and their IP addresses                          |
+| `ip -a`                                      | Show all network interfaces and their IP addresses                          |
 | `ip addr show <interface>`                   | Display information about a specific network interface                      |
 | `ip link set <interface> up`                 | Bring a network interface up                                                |
 | `ip link set <interface> down`               | Bring a network interface down                                              |
@@ -475,7 +476,11 @@ Systemd manages various types of units, not just services.
 | `nmcli connection show`                      | Display saved network connections (NetworkManager)                          |
 | `nmcli connection up <connection-name>`      | Bring up a specific network connection (NetworkManager)                     |
 | `nmcli connection down <connection-name>`    | Bring down a specific network connection (NetworkManager)                   |
+| `sudo nmcli connection reload`               | Reload connection                                                           |
 | `nmtui`                                      | Text-based user interface for managing network connections                  |
+| `sudo systemctl restart NetworkManager`      | Apply configs                                                               |
+| `sudo nmtui`                                 |  Ui for managing network in RHel                                            |
+
 
 ---
 
