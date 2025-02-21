@@ -480,7 +480,7 @@ Systemd manages various types of units, not just services.
 | `nmtui`                                      | Text-based user interface for managing network connections                  |
 | `sudo systemctl restart NetworkManager`      | Apply configs                                                               |
 | `sudo nmtui`                                 |  Ui for managing network in RHel                                            |
-
+| `cat /etc/sysconfig/network-scripts/ifcfg-eth160` | ip configs in redhat                                                   |
 
 ---
 
