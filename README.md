@@ -2,26 +2,7 @@
 
 A collection of common Linux commands for system navigation, file management, networking, and more.
 
-## Table of Contents
-1. [Basic Commands](#basic-commands)
-2. [Operators](#operators)
-3. [File and Directory Management](#file-and-directory-management)
-4. [File Permissions](#file-permissions)
-5. [Screen](#screen)
-6. [Shutdown and Sleep](#shutdown_and_sleep)
-7. [User Management](#user-management)
-8. [Package Management](#package-management)
-9. [Cron Jobs and Scheduling](#cron-jobs-and-scheduling)
-10. [Process Management](#process-management)
-11. [System Monitoring](#system-monitoring)
-12. [Systemd Management](systemd-management)
-13. [Networking](#networking)
-14. [SSH Management](#ssh-management)
-15. [Mail Management](mail-management)
-16. [Kernel and Modules Management](#kernel-and-modules-management)
-17. [Boot, Bootloader (GRUB), and EFI Firmware](#boot-bootloader-grub-and-efi-firmware)
 
----
 
 ## Basic Commands
 
@@ -67,59 +48,6 @@ A collection of common Linux commands for system navigation, file management, ne
 
 ---
 
-## Operators
-
-| Operator        | Description                                                                 |
-|-----------------|-----------------------------------------------------------------------------|
-| `|` (Pipe)      | Pass the output of one command as input to another command (`ls | grep txt`) |
-| `>`             | Redirect output to a file, overwriting the file if it exists (`echo "Hello" > file.txt`) |
-| `>>`            | Redirect output to a file, appending if the file exists (`echo "Hello" >> file.txt`) |
-| `<`             | Redirect input from a file to a command (`sort < file.txt`)                 |
-| `2>`            | Redirect error output to a file (`command 2> error.log`)                    |
-| `2>&1`          | Redirect error output to standard output (`command > file.txt 2>&1`)        |
-| `&`             | Run a command in the background (`command &`)                               |
-| `&&`            | Run the next command only if the previous command succeeds (`command1 && command2`) |
-| `||`            | Run the next command only if the previous command fails (`command1 || command2`) |
-| `;`             | Run multiple commands in sequence (`command1; command2; command3`)          |
-| `$(command)`    | Command substitution: use the output of a command as an argument (`echo $(date)`) |
-| `&>`            | Redirect both standard output and error output to a file (`command &> output.log`) |
-
-___
-
-## File and Directory Management
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ls`                                         | List files and directories in the current directory                         |
-| `ls -l`                                      | List files and directories with detailed information                        |
-| `ls -a`                                      | List all files, including hidden files                                      |
-| `cd <directory>`                             | Change to a specific directory                                              |
-| `cd ..`                                      | Move up one directory level                                                 |
-| `pwd`                                        | Display the current working directory                                       |
-| `mkdir <directory>`                          | Create a new directory                                                      |
-| `rmdir <directory>`                          | Remove an empty directory                                                   |
-| `rm <file>`                                  | Delete a file                                                               |
-| `rm -r <directory>`                          | Remove a directory and its contents recursively                             |
-| `rm -rf <directory>`                         | Forcefully remove a directory and its contents                              |
-| `cp <source> <destination>`                  | Copy files or directories                                                   |
-| `cp -r <source-directory> <destination>`     | Copy directories recursively                                                |
-| `mv <source> <destination>`                  | Move or rename files and directories                                        |
-| `touch <file>`                               | Create an empty file or update the timestamp of an existing file            |
-| `ln -s <target> <link>`                      | Create a symbolic link (soft link)                                          |
-| `ln <target> <link>`                         | Create a hard link                                                          |
-| `cat <file>`                                 | Display the contents of a file                                              |
-| `less <file>`                                | View the contents of a file page by page                                    |
-| `more <file>`                                | View the contents of a file page by page (older than `less`)                |
-| `head <file>`                                | Display the first 10 lines of a file                                        |
-| `tail <file>`                                | Display the last 10 lines of a file                                         |
-| `tail -f <file>`                             | Display the contents of a file in real-time (follow the file as it grows)   |
-| `find <directory> -name <filename>`          | Search for a file or directory by name                                      |
-| `find <directory> -type d -name <dirname>`   | Find directories matching a specific name                                   |
-| `find <directory> -type f -name <filename>`  | Find files matching a specific name                                         |
-| `grep "<pattern>" <file>`                    | Search for a specific pattern in a file                                     |
-| `grep -r "<pattern>" <directory>`            | Search for a pattern recursively in a directory                             |
-
----
 
 ## File Permissions
 
@@ -135,129 +63,6 @@ ___
 
 ---
 
-## Screen
-
-| Command                      | Description                                         |
-|------------------------------|-----------------------------------------------------|
-| `screen`                     | Start a new screen session                          |
-| `screen -S <session_name>`    | Start a new screen session with a custom name       |
-| `screen -ls`                 | List all active screen sessions                     |
-| `screen -r <session_id>`      | Reattach to a detached screen session               |
-| `Ctrl + a + d`               | Detach from the current screen session               |
-| `screen -X -S <session_id> quit` | Force quit a screen session                     |
-| `Ctrl + a + k`               | Kill the current screen                             |
-| `screen -x <session_id>`      | Attach to a running session shared by multiple users|
-| `Ctrl + a + n`               | Switch to the next window in the screen session      |
-| `Ctrl + a + p`               | Switch to the previous window in the screen session  |
-| `Ctrl + a + c`               | Create a new window in the current screen session    |
-| `Ctrl + a + "`               | List all windows in the current session              |
-
-___
-
-## Shutdown and Sleep
-
-| Command                      | Description                                           |
-|------------------------------|-------------------------------------------------------|
-| `shutdown now`               | Shut down the system immediately                      |
-| `shutdown -h now`            | Halt the system immediately                           |
-| `shutdown -r now`            | Restart the system immediately                        |
-| `shutdown -h +<time>`        | Schedule shutdown after a specified time (e.g., `+10` for 10 minutes) |
-| `shutdown -c`                | Cancel a scheduled shutdown                           |
-| `reboot`                     | Reboot the system                                     |
-| `halt`                       | Halt the system without powering it off               |
-| `systemctl poweroff`         | Power off the system                                  |
-| `systemctl reboot`           | Reboot the system                                     |
-| `systemctl suspend`          | Suspend the system (sleep mode)                       |
-| `systemctl hibernate`        | Hibernate the system                                  |
-| `systemctl hybrid-sleep`     | Hibernate and suspend the system                      |
-| `pm-suspend`                 | Suspend the system (if `pm-utils` is installed)       |
-| `pm-hibernate`               | Hibernate the system (if `pm-utils` is installed)     |
-| `pm-suspend-hybrid`          | Hibernate and suspend the system (if `pm-utils` is installed) |
-
-___
-
-## User Management
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `adduser <username>`                         | Create a new user with home directory and default shell            |
-| `useradd <username>`                         | Create a new user (minimal setup, no home directory by default)    |
-| `userdel <username>`                         | Delete a user account                                              |
-| `userdel -r <username>`                      | Delete a user account and their home directory                     |
-| `passwd <username>`                          | Change the password for a user                                     |
-| `chage -l <username>`                        | Display password aging information for a user                      |
-| `usermod -aG <groupname> <username>`         | Add a user to a group                                              |
-| `groups <username>`                          | List groups a user is part of                                      |
-| `id <username>`                              | Show user ID (UID), group ID (GID), and other group memberships    |
-| `deluser <username>`                         | Remove a user from the system                                      |
-| `deluser <username> <groupname>`             | Remove a user from a specific group                                |
-| `sudo <command>`                             | Execute a command as the superuser                                 |
-| `su <username>`                              | Switch to another user account (requires that user's password)     |
-| `who`                                        | Show who is logged in                                              |
-| `whoami`                                     | Display the current logged-in user                                 |
-| `last`                                       | Show last logins of users                                          |
-| `w`                                          | Display who is logged in and what they are doing                   |
-| `finger <username>`                          | Display detailed information about a user                          |
-| `getent passwd`                              | Display all users in the system                                    |
-| `vipw`                                       | Safely edit the `/etc/passwd` file (user accounts)                 |
-| `visudo`                                     | Safely edit the `/etc/sudoers` file                                |
-| `chown <owner>:<group> <file>`               | Change ownership of a file                                         |
-| `chmod <permissions> <file>`                 | Change file permissions                                            |
-
----
-
-### Group Management
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `groupadd <groupname>`                       | Create a new group                                                 |
-| `groupdel <groupname>`                       | Delete a group                                                     |
-| `gpasswd -a <username> <groupname>`          | Add a user to a group (alternative to `usermod -aG`)               |
-| `gpasswd -d <username> <groupname>`          | Remove a user from a group                                         |
-| `newgrp <groupname>`                         | Switch to a new group for the current session                      |
-| `groups <username>`                          | Display the groups a user belongs to                               |
-| `getent group <groupname>`                   | Show group entry in `/etc/group`                                   |
-
----
-
-### Account and Session Management
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `chage -E <date> <username>`                 | Set an account expiration date for a user                          |
-| `chage -M <days> <username>`                 | Set maximum number of days a password remains valid                |
-| `chage -m <days> <username>`                 | Set minimum number of days before a password can be changed        |
-| `chage -I <days> <username>`                 | Set the number of days after a password expires before an account is disabled |
-| `faillog -u <username>`                      | Show login failure statistics for a user                           |
-| `faillog -r <username>`                      | Reset failed login count for a user                                |
-| `lastlog`                                    | Show the last login of all users                                   |
-| `pkill -u <username>`                        | Terminate all processes owned by a user                            |
-| `passwd -l <username>`                       | Lock a user account (disallow login)                               |
-| `passwd -u <username>`                       | Unlock a user account                                              |
-| `nologin`                                    | Prevent a user from logging in by setting their shell to `/sbin/nologin` |
-
----
-
-## Package Management
-
-### Debian/Ubuntu
-
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `apt-get update`              | Update package list                         |
-| `apt-get upgrade`             | Upgrade all installed packages              |
-| `apt-get install <package>`   | Install a package                           |
-| `apt-get remove <package>`    | Remove a package                            |
-
-### Red Hat/CentOS
-
-| Command                      | Description                                 |
-|------------------------------|---------------------------------------------|
-| `yum update`                  | Update package list                         |
-| `yum install <package>`       | Install a package                           |
-| `yum remove <package>`        | Remove a package                            |
-
----
 
 ## Cron Jobs and Scheduling
 
@@ -362,31 +167,6 @@ Linux processes can be sent various signals to control their behavior.
 
 ---
 
-### Background & Foreground Process Management
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `command &`                                  | Run a command in the background                                             |
-| `bg`                                         | Resume a suspended job in the background                                    |
-| `fg`                                         | Bring a background job to the foreground                                    |
-| `jobs`                                       | List current jobs and their statuses                                        |
-| `nohup <command> &`                          | Run a command immune to hangups, in the background                          |
-| `disown <job>`                               | Remove a job from the job table, leaving it running                         |
-
----
-
-### Process Ownership and Security
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ps -u <username>`                           | List all processes belonging to a user                                      |
-| `sudo -u <username> <command>`               | Run a command as a different user                                           |
-| `chown <owner>:<group> <file>`               | Change ownership of files or directories                                    |
-| `chmod <permissions> <file>`                 | Modify permissions for a file or directory                                  |
-| `setfacl -m u:<user>:rwx <file>`             | Set file access control lists (ACLs) for a user on a file                   |
-| `getfacl <file>`                             | View ACL permissions of a file                                              |
-
----
 
 ### Monitoring CPU and Memory Usage by Process
 
@@ -484,20 +264,7 @@ Systemd manages various types of units, not just services.
 
 ---
 
-### DNS Management
 
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `dig <domain>`                               | Query DNS information for a domain                                          |
-| `dig +short <domain>`                        | Get the short output (e.g., only the IP address)                            |
-| `dig @<nameserver> <domain>`                 | Query a specific DNS server for domain resolution                           |
-| `nslookup <domain>`                          | Query DNS information for a domain                                          |
-| `host <domain>`                              | Perform DNS lookup and reverse lookup                                       |
-| `systemd-resolve --status`                   | Show DNS resolution status (systemd-resolved)                               |
-| `resolvectl query <domain>`                  | Query DNS using systemd-resolved                                            |
-| `cat /etc/resolv.conf`                       | Display DNS server configuration                                            |
-
----
 
 ### Network Troubleshooting
 
@@ -525,26 +292,6 @@ Systemd manages various types of units, not just services.
 
 ---
 
-### Firewall Management (iptables and firewalld)
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `iptables -L`                                | List all firewall rules                                                     |
-| `iptables -A <chain> -p <protocol> --dport <port> -j <target>` | Add a rule to a chain (e.g., ACCEPT, DROP)                                 |
-| `iptables -D <chain> <rule-number>`          | Delete a specific rule from a chain                                         |
-| `iptables -F`                                | Flush (delete) all firewall rules                                           |
-| `firewall-cmd --list-all`                    | List all active firewalld rules (CentOS, Fedora)                            |
-| `firewall-cmd --add-service=<service>`       | Temporarily allow a service through the firewall                            |
-| `firewall-cmd --permanent --add-service=<service>` | Permanently allow a service through the firewall                         |
-| `firewall-cmd --remove-service=<service>`    | Remove a service from the firewall                                          |
-| `ufw status`                                 | Display the status of UFW (Uncomplicated Firewall) (Ubuntu)                 |
-| `ufw enable`                                 | Enable UFW                                                                  |
-| `ufw disable`                                | Disable UFW                                                                 |
-| `ufw allow <port>/<protocol>`                | Allow traffic on a port (e.g., `ufw allow 22/tcp`)                          |
-| `ufw deny <port>/<protocol>`                 | Deny traffic on a port                                                      |
-
----
-
 ### Network File Transfer
 
 | Command                                      | Description                                                                 |
@@ -558,18 +305,6 @@ Systemd manages various types of units, not just services.
 
 ---
 
-### SSH and Remote Connections
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ssh <user>@<host>`                          | Connect to a remote host via SSH                                            |
-| `ssh -i <keyfile> <user>@<host>`             | Connect to a remote host using a specific private key                       |
-| `ssh -L <local-port>:<remote-host>:<remote-port> <user>@<host>` | Create an SSH tunnel with port forwarding                                |
-| `ssh-copy-id <user>@<host>`                  | Copy local SSH key to a remote host to enable passwordless login            |
-| `scp <user>@<host>:<source> <destination>`   | Securely copy files between local and remote hosts                          |
-| `sftp <user>@<host>`                         | Securely transfer files to/from a remote host using SFTP                    |
-| `tmux`                                       | Start a terminal multiplexer session (maintain SSH sessions)                |
-| `screen`                                     | Start a screen session (maintain SSH sessions)                              |
 
 ## System Monitoring
 
@@ -685,155 +420,6 @@ This section provides commands for monitoring system performance, processes, CPU
 | `who`                                        | Show who is logged in to the system                                         |
 
 
-## SSH Management
-
-SSH (Secure Shell) is a protocol used for securely accessing remote machines over a network. This section covers commands for managing SSH connections, keys, and configuration.
-
-### Basic SSH Commands
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ssh <user>@<host>`                          | Connect to a remote host as a specified user                               |
-| `ssh -p <port> <user>@<host>`               | Connect to a remote host on a specific port                                |
-| `ssh -i <keyfile> <user>@<host>`            | Connect using a specific private key file                                   |
-| `ssh -L <local_port>:<remote_host>:<remote_port> <user>@<host>` | Create an SSH tunnel for local port forwarding                              |
-| `ssh -R <remote_port>:<local_host>:<local_port> <user>@<host>` | Create an SSH tunnel for remote port forwarding                             |
-| `ssh -D <local_port> <user>@<host>`         | Set up a SOCKS proxy on the specified local port                           |
-| `scp <file> <user>@<host>:<remote_path>`    | Copy a file to a remote host using SSH                                    |
-| `scp <user>@<host>:<remote_path> <local_path>` | Copy a file from a remote host to the local machine                       |
-| `rsync -avz -e "ssh -p <port>" <source> <user>@<host>:<destination>` | Sync files with a remote host over SSH                                    |
-
----
-
-### SSH Key Management
-
-SSH keys provide a secure way to authenticate without using passwords.
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"` | Generate a new SSH key pair (RSA, 4096 bits)                               |
-| `ssh-add <keyfile>`                         | Add a private key to the SSH authentication agent                          |
-| `ssh-copy-id <user>@<host>`                  | Install your public key on a remote host for passwordless authentication    |
-| `cat ~/.ssh/id_rsa.pub`                     | Display your public key for sharing                                        |
-| `ssh-agent bash`                            | Start a new shell with the SSH agent running                               |
-| `ssh-keygen -R <host>`                       | Remove the specified host from the known_hosts file                        |
-| `ssh -Q key`                                 | List supported key types                                                  |
-
----
-
-### Common SSH Configuration Options
-
-| Option                                       | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `Host <name>`                               | Alias for a host configuration                                             |
-| `HostName <hostname>`                       | Actual hostname or IP address to connect to                                |
-| `User <username>`                           | Default username to log in as                                             |
-| `Port <port_number>`                        | Port to connect to (default is 22)                                        |
-| `IdentityFile <path>`                       | Path to the private key file for authentication                            |
-| `ForwardAgent yes`                          | Enable SSH agent forwarding                                                |
-| `StrictHostKeyChecking no`                  | Disable host key verification (not recommended for security)              |
-
----
-
-### SSH Key Management for Users
-
-| Command                                      | Description                                                       |
-|----------------------------------------------|-------------------------------------------------------------------|
-| `ssh-keygen`                                 | Generate a new SSH key pair                                        |
-| `ssh-copy-id <username>@<host>`              | Copy SSH key to a remote host for passwordless login               |
-| `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys` | Manually add SSH public key for user authentication            |
-| `chmod 600 ~/.ssh/authorized_keys`           | Set correct permissions for SSH authorized keys                    |
-
----
-
-### SSH Security Best Practices
-
-| Best Practice                                 | Description                                                                 |
-|-----------------------------------------------|-----------------------------------------------------------------------------|
-| Use SSH keys instead of passwords             | SSH keys provide better security than passwords.                           |
-| Disable root login                            | Prevent direct SSH login as root by editing `/etc/ssh/sshd_config`:      |
-|                                               | ```plaintext                                                               |
-| PermitRootLogin no                            |
-| ```                                          |
-| Use strong passphrases for SSH keys          | Protect private keys with strong passphrases.                              |
-| Change the default SSH port                   | Edit `/etc/ssh/sshd_config` and change `Port 22` to another port.        |
-| Enable two-factor authentication               | Add an extra layer of security with 2FA using tools like `Google Authenticator`. |
-
----
-
-### SSH Configuration
-
-The SSH client can be configured using the `~/.ssh/config` file for convenience and ease of use.
-
-#### Example SSH Configurations
-
-```plaintext
-# Default settings
-Host *
-    User your_username
-    Port 22
-    IdentityFile ~/.ssh/id_rsa
-
-# Specific host configuration
-Host myserver
-    HostName myserver.example.com
-    User myuser
-    Port 2222
-    IdentityFile ~/.ssh/myserver_id_rsa
-```
-
-## Mail Management
-
-### Sending Mail
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `mail <recipient>`                           | Open the mail client to send an email                                      |
-| `echo "Email body" | mail -s "Subject" <recipient>` | Send an email with a subject from the command line                      |
-| `sendmail <recipient>`                       | Send an email using the sendmail command                                   |
-| `mailx -s "Subject" <recipient> < <file>`   | Send the contents of a file as the body of the email                       |
-| `mutt -s "Subject" <recipient> < <file>`    | Send an email with a subject using mutt                                    |
-| `ssmtp <recipient>`                          | Send an email using ssmtp (simple SMTP client)                            |
-| `mail -c <cc_recipient>`                    | Send a carbon copy (CC) of the email to another recipient                  |
-| `mail -b <bcc_recipient>`                   | Send a blind carbon copy (BCC) of the email to another recipient           |
-
----
-
-### Common Mail Services
-
-| Service                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `postfix`                                   | A widely used mail transfer agent (MTA)                                   |
-| `sendmail`                                  | A traditional mail transfer agent, often used for sending mail            |
-| `exim`                                      | Another popular mail transfer agent                                        |
-| `ssmtp`                                     | A simple utility to send emails via SMTP                                   |
-| `mutt`                                      | A text-based email client for Unix                                         |
-| `mailx`                                     | An enhanced version of the mail command                                    |
-
----
-
-### Mail Troubleshooting
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `tail -f /var/log/mail.log`                 | Monitor mail logs for sending issues (Debian/Ubuntu)                      |
-| `grep "error" /var/log/mail.log`            | Search for errors in the mail log                                          |
-| `mailq`                                     | View the mail queue                                                       |
-| `sendmail -bv <recipient>`                  | Verify if an email can be sent to a recipient                             |
-
-### Mail Configuration
-
-Configuration files for mail services can typically be found in `/etc/mail/` or `/etc/`.
-
-#### Example `/etc/ssmtp/ssmtp.conf` Configuration
-
-```plaintext
-root=postmaster
-mailhub=smtp.example.com:587
-AuthUser=username
-AuthPass=password
-UseSTARTTLS=YES
-```
 
 ## Kernel and Modules Management
 
@@ -894,15 +480,6 @@ This section provides commands for managing the Linux kernel and its modules, in
 
 ---
 
-### Rebuilding the Initramfs
-
-| Command                                      | Description                                                                 |
-|----------------------------------------------|-----------------------------------------------------------------------------|
-| `mkinitcpio -p linux`                        | Rebuild the initramfs for Arch-based systems                                |
-| `update-initramfs -u`                        | Update the initramfs for the current kernel (Debian/Ubuntu)                 |
-| `dracut -f`                                  | Regenerate initramfs on systems using Dracut                                |
-
----
 
 ### Kernel Upgrade and Management
 
